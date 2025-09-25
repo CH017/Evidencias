@@ -1,0 +1,72 @@
+
+
+package com.example.calculadoraimc;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText personas;
+
+    EditText monto;
+
+    RadioButton p5;
+
+    RadioButton p10;
+
+    RadioButton p15;
+
+    RadioGroup propinas;
+
+    Button calcular;
+
+    TextView resultado;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        personas=findViewById(R.id.personas);
+        monto=findViewById(R.id.monto);
+        calcular=findViewById(R.id.calcular);
+        resultado=findViewById(R.id.result);
+
+        calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    double montoCuenta = Double.parseDouble(monto.getText().toString());
+                    int numPersonas = Integer.parseInt(personas.getText().toString());
+
+
+                    int selectedId = propinas.getCheckedRadioButtonId();
+                    double porcentaje = 0.0;
+
+                    // Determina el porcentaje seleccionado
+                    if (selectedId == R.id.p5) {
+                        porcentaje = 0.05;
+                    } else if (selectedId == R.id.p10) {
+                        porcentaje = 0.10;
+                    } else if (selectedId == R.id.p15) {
+                        porcentaje = 0.15;
+                    }
+
+                    double propinaTotal = montoCuenta * porcentaje;
+                    double propinaPorPersona = propinaTotal / numPersonas;
+
+                    resultado.setText(String.format("Propina por persona: $"+propinaPorPersona));
+
+            }});
+    }
+}
